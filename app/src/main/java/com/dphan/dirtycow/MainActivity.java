@@ -1,6 +1,7 @@
 package com.dphan.dirtycow;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
@@ -11,8 +12,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 import java.io.DataOutputStream;
 import java.io.File;
@@ -40,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btn;
     private TextView out;
     private String command;
+    private ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,16 +59,23 @@ public class MainActivity extends AppCompatActivity {
         // use OkHTTP and Retrofit2 to interface with Github repository to download images
         // upon startup, have
 
-        input = (EditText) findViewById(R.id.edittext_adb_cmd);
         btn = (Button) findViewById(R.id.button_dirtycow);
         out = (TextView) findViewById(R.id.out);
+        imageView = (ImageView) findViewById(R.id.image_dirtycow);
+
+        File picture = new File("/data/local/tmp/dirtycow.png");
+
+        Context context = getApplicationContext();
+
+        Picasso.with(context).load(picture).into(imageView);
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ShellExecuter executer = new ShellExecuter();
-                command = input.getText().toString();
+                //command = input.getText().toString();
 
+                command = "ls -l /data/local/tmp/dirtycow.png";
                 String outp = executer.execute(command);
                 out.setText(outp);
                 Log.d(TAG, "output" + outp);
