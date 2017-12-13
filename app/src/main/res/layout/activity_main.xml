@@ -6,27 +6,71 @@
     android:layout_height="match_parent"
     tools:context="com.dphan.dirtycow.MainActivity">
 
+    <ImageView
+        android:id="@+id/image_dirtycow"
+        android:layout_width="351dp"
+        android:layout_height="148dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/ic_launcher_foreground" />
+
+
+    <EditText
+        android:id="@+id/edittext_adb_cmd"
+        android:layout_width="352dp"
+        android:layout_height="53dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:hint="Example - ls"
+        app:layout_constraintBottom_toTopOf="@+id/button_dirtycow"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image_dirtycow"
+        app:layout_constraintVertical_bias="0.446" />
+
     <Button
         android:id="@+id/button_dirtycow"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="46dp"
+        android:layout_marginBottom="8dp"
         android:text="there is no cow level"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.95" />
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="352dp"
+        android:layout_height="160dp"
+        android:layout_marginBottom="36dp"
+        android:isScrollContainer="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.74" />
+        app:layout_constraintVertical_bias="1.0">
 
-    <ImageView
-        android:id="@+id/image_dirtycow"
-        android:layout_width="335dp"
-        android:layout_height="243dp"
-        app:layout_constraintBottom_toTopOf="@+id/button_dirtycow"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.51"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.8"
-        app:srcCompat="@mipmap/ic_launcher_foreground" />
+        <TextView
+            android:id="@+id/out"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:scrollbars="vertical"
+            android:textAlignment="textStart"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button_dirtycow"
+            app:layout_constraintVertical_bias="0.091" />
+
+    </ScrollView>
+
 
 </android.support.constraint.ConstraintLayout>
