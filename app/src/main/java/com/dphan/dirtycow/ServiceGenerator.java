@@ -12,19 +12,16 @@ import retrofit2.converter.moshi.MoshiConverterFactory;
 
 public class ServiceGenerator {
 
-    private static final String BASE_URL = "https://api.github.com/";
-
+    private static Retrofit.Builder builder = new Retrofit.Builder();
     private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
-    private static Retrofit.Builder builder = new Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(MoshiConverterFactory.create());
+    public static <S> S createService(Class<S> serviceClass, String baseUrl) {
+        Retrofit retrofit = builder
+                .baseUrl(baseUrl)
+                .client(httpClient.build())
+                .addConverterFactory(MoshiConverterFactory.create())
+                .build();
 
-    private static Retrofit retrofit = builder
-            .client(httpClient.build())
-            .build();
-
-    public static <S> S createService(Class<S> serviceClass) {
         return retrofit.create(serviceClass);
     }
 }
