@@ -2,6 +2,7 @@ package com.dphan.dirtycow;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -9,8 +10,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -27,6 +31,15 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
     private static final int MY_PERMISSIONS_REQUEST = 100;
+    //private static final String BASE_URL = "https://futurestud.io/";
+    private static final String BASE_URL = "https://github.com/";
+    private static final String DIRTY_COW = "dirtycow.png";
+    private static final String GROOT = "iamroot.png";
+
+    private EditText input;
+    private Button btn;
+    private TextView out;
+    private String command;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,97 +54,20 @@ public class MainActivity extends AppCompatActivity {
         // use OkHTTP and Retrofit2 to interface with Github repository to download images
         // upon startup, have
 
-        final int permission = ContextCompat.checkSelfPermission(MainActivity.this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        input = (EditText) findViewById(R.id.edittext_adb_cmd);
+        btn = (Button) findViewById(R.id.button_dirtycow);
+        out = (TextView) findViewById(R.id.out);
 
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(MainActivity.this,
-                    new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    MY_PERMISSIONS_REQUEST);
-        }
-
-        Button downloadButton = (Button) findViewById(R.id.button_dirtycow);
-        downloadButton.setOnClickListener(new View.OnClickListener() {
+        btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                downloadFile();
+                ShellExecuter executer = new ShellExecuter();
+                command = input.getText().toString();
+
+                String outp = executer.execute(command);
+                out.setText(outp);
+                Log.d(TAG, "output" + outp);
             }
         });
-
-    }
-
-    private void downloadFile() {
-        Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("https://futurestud.io/");
-
-        Retrofit retrofit = builder.build();
-
-        FileDownloadClient fileDownloadClient = retrofit.create(FileDownloadClient.class);
-
-        Call<ResponseBody> call = fileDownloadClient.downloadFile();
-
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                boolean success = writeResponseBodyToDisk(response.body());
-                Toast.makeText(MainActivity.this, "yeah :)" + success, Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "no :(", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private boolean writeResponseBodyToDisk(ResponseBody body) {
-        try {
-            // todo change the file location/name according to your needs
-            //File futureStudioIconFile = new File(getExternalFilesDir(null) + File.separator + "Future Studio Icon.png");
-            File dirtyCowFile = new File(getExternalFilesDir(null) + File.separator + "dirty.png");
-
-            InputStream inputStream = null;
-            OutputStream outputStream = null;
-
-            try {
-                byte[] fileReader = new byte[4096];
-
-                long fileSize = body.contentLength();
-                long fileSizeDownloaded = 0;
-
-                inputStream = body.byteStream();
-                outputStream = new FileOutputStream(dirtyCowFile);
-
-                while (true) {
-                    int read = inputStream.read(fileReader);
-
-                    if (read == -1) {
-                        break;
-                    }
-
-                    outputStream.write(fileReader, 0, read);
-
-                    fileSizeDownloaded += read;
-
-                    Log.d(TAG, "file download: " + fileSizeDownloaded + " of " + fileSize);
-                }
-
-                outputStream.flush();
-
-                return true;
-            } catch (IOException e) {
-                return false;
-            } finally {
-                if (inputStream != null) {
-                    inputStream.close();
-                }
-
-                if (outputStream != null) {
-                    outputStream.close();
-                }
-            }
-        } catch (IOException e) {
-            return false;
-        }
     }
 }
