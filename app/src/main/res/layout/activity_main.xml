@@ -25,19 +25,9 @@
 
         <Button
             android:id="@+id/button_dirtycow"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1.45"
             android:text="there is no cow level"
-            android:textAlignment="center" />
-
-        <Button
-            android:id="@+id/button_cleancow"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_toRightOf="@id/button_dirtycow"
-            android:layout_weight="1"
-            android:text="clean the cow"
             android:textAlignment="center" />
 
     </LinearLayout>
