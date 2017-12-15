@@ -1,5 +1,10 @@
 # DirtyCow CVE-2016-5195 Proof of Concept App
 
+## Authors
+David Phan
+
+Joel Gomez - https://github.com/jgome043
+
 ## Overview
 Dirty COW is a privilege escalation vulnerability that allows an attacker to exploit
 a race condition vulnerability in the Copy-On-Write mechanism of the memory management
