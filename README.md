@@ -9,7 +9,8 @@ Joel Gomez - https://github.com/jgome043
 Dirty COW is a privilege escalation vulnerability that allows an attacker to exploit
 a race condition vulnerability in the Copy-On-Write mechanism of the memory management
 in the Linux Kernel. The exploit allows a non-privileged user to write to read-only
-memory space.
+memory space. The name takes inspiration from two places: "cow" from copy-on-write, 
+and "dirty" from David Zhu, who has no affiliation with this project.
 
 ## Technical Issues
 1. Using the latest versions of NDK caused the compiled run-as binary to be
